@@ -131,19 +131,20 @@
         #crew {
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
+            
         }
 
         .crewmates {
-            flex: 1;
+            width: 5vw;
+            flex: 0 0 auto;
             position: relative;
             overflow: hidden;
             display: flex;
             padding: 10%;
             box-sizing: border-box;
             border-radius: 50%;
-            transform: translateX(100px) rotate(359deg);
             transition: 1s, .3s opacity;
         }
 
@@ -176,13 +177,14 @@
         <img src="src/bokunohero/bokunohero_logo.png" class="world" onclick="preLoad(1, 'bokunohero'); setWorld()">
         <img src="src/capitantsubasa/capitantsubasa_logo.png" class="world" onclick="preLoad(2, 'capitantsubasa'); setWorld()">
         <img src="src/dragonball/dragonball_logo.png" class="world" onclick="preLoad(3, 'dragonball'); setWorld()">
-        <img src="src/jujutsukaisen/jujutsukaisen_logo.png" class="world" onclick="preLoad(4, 'jujutsukaisen'); setWorld()">
-        <img src="src/kimetsunoyaiba/kimetsunoyaiba_logo.png" class="world" onclick="preLoad(5, 'kimetsunoyaiba'); setWorld()">
-        <img src="src/nanatsunotaizai/nanatsunotaizai_logo.png" class="world" onclick="preLoad(6, 'nanatsunotaizai'); setWorld()">
-        <img src="src/naruto/naruto_logo.png" class="world" onclick="preLoad(7, 'naruto'); setWorld()">
-        <img src="src/onepiece/onepiece_logo.png" class="world" onclick="preLoad(8, 'onepiece'); setWorld()">
-        <img src="src/pokemon/pokemon_logo.png" class="world" onclick="preLoad(9, 'pokemon'); setWorld()">
-        <img src="src/tokyorevengers/tokyorevengers_logo.png" class="world" onclick="preLoad(10, 'tokyorevengers'); setWorld()">
+        <img src="src/haikyuu/haikyuu_logo.png" class="world" onclick="preLoad(4, 'haikyuu'); setWorld()">
+        <img src="src/jujutsukaisen/jujutsukaisen_logo.png" class="world" onclick="preLoad(5, 'jujutsukaisen'); setWorld()">
+        <img src="src/kimetsunoyaiba/kimetsunoyaiba_logo.png" class="world" onclick="preLoad(6, 'kimetsunoyaiba'); setWorld()">
+        <img src="src/nanatsunotaizai/nanatsunotaizai_logo.png" class="world" onclick="preLoad(7, 'nanatsunotaizai'); setWorld()">
+        <img src="src/naruto/naruto_logo.png" class="world" onclick="preLoad(8, 'naruto'); setWorld()">
+        <img src="src/onepiece/onepiece_logo.png" class="world" onclick="preLoad(9, 'onepiece'); setWorld()">
+        <img src="src/pokemon/pokemon_logo.png" class="world" onclick="preLoad(10, 'pokemon'); setWorld()">
+        <img src="src/tokyorevengers/tokyorevengers_logo.png" class="world" onclick="preLoad(11, 'tokyorevengers'); setWorld()">
     </div>
     <main class="scene">
         <video id="star-banner" src="" loop autoplay></video>
@@ -195,6 +197,9 @@
             <span></span>
         </div>
         <div id="crew">
+            <img src=""class="crewmates">
+            <img src=""class="crewmates">
+            <img src=""class="crewmates">
             <img src=""class="crewmates">
             <img src=""class="crewmates">
             <img src=""class="crewmates">
@@ -232,11 +237,16 @@
 
         function setWorld(i=0) {
             hideWorldBox(wi, world)
-            if(i!== 0) {banner.setAttribute('src', preMidia['wpp'][i].src); star_banner.style.opacity = '0'} else {star_banner.style.opacity = '1'}
+            banner.setAttribute('src', preMidia['wpp'][i].src)
+            star_banner.style.opacity = (i!==0) ? '0' : '1'
             logo.setAttribute('src', preMidia['logo'].src)
             name.innerText = preMidia['name'][i]
             desc.innerText = preMidia['desc'][i]
-            for(let i=0; i < crewmates.length; i++) {
+            for(button of crewmates) {
+                button.style.display = 'none'
+            }
+            for(let i=0; i < preMidia['name'].length; i++) {
+                crewmates[i].style.display = 'flex'
                 crewmates[i].setAttribute('src', preMidia['tokens'][i].src)
                 crewmates[i].style.opacity = '1'
                 crewmates[i].style.transform = 'translateX(0px) rotate(0deg)'
@@ -294,18 +304,21 @@
             preMidia['wpp'] = [];
             preMidia['name'] = [];
             preMidia['desc'] = [];
+            preMidia['video'] = ''
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < data[wi]['name'].length; i++) {
                 const token = new Image();
                 token.src = `src/${world}/tokens/${world}_${data[wi]['tokens'][i]}`;
                 const wpp = new Image();
                 wpp.src = `src/${world}/wpp/${world}_${data[wi]['wpp'][i]}`;
                 const name = data[wi]['name'][i];
                 const desc = data[wi]['desc'][i];
+                const video = `src/${world}/wpp/${world}_${data[wi]['video']}`
                 preMidia['tokens'].push(token);
                 preMidia['wpp'].push(wpp);
                 preMidia['name'].push(name);
                 preMidia['desc'].push(desc);
+                preMidia['video'] = video;
             }
         }
 
